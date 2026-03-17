@@ -4,7 +4,7 @@ import { bootstrapExtra } from "@workadventure/scripting-api-extra";
 
 console.info('Script started successfully');
 
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbya7ac2PzYonLsI8GmbSa3Y1ZdalTFk4nDH6nyXlq-9a_jpdNpgipo8I4yaj-joeoxq/exec';
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbzem0EcC-LMPAHLsCvA7Y7IaedngGOSYcn0zAvMqB0mCuPXLP-MvXsJfEGCySgtMRZI/exec';
 const PING_INTERVAL_MS = 30 * 1000;
 
 let currentPopup: any = undefined;
