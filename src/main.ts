@@ -4,6 +4,9 @@ import { bootstrapExtra } from "@workadventure/scripting-api-extra";
 
 console.info('Script started successfully');
 
+const GAS_URL = 'https://script.google.com/macros/s/YOUR_DEPLOY_ID/exec';
+const PING_INTERVAL_MS = 30 * 1000;
+
 let currentPopup: any = undefined;
 
 // Waiting for the API to be ready
@@ -19,6 +22,21 @@ WA.onInit().then(() => {
 
     WA.room.area.onLeave('clock').subscribe(closePopup)
 
+    // --- 在室通知を追加 ---
+    const name   = WA.player.name;
+    const userId = WA.player.id ?? `name:${name}`;
+    const send = (when: string) => navigator.sendBeacon(
+        GAS_URL,
+        JSON.stringify({ when, id: userId, name, timestamp: String(Date.now()) })
+    );
+
+    send('enter');
+    let timer = setInterval(() => send('ping'), PING_INTERVAL_MS);
+    window.addEventListener('beforeunload', () => {
+        clearInterval(timer);
+        send('leave');
+    });
+    
     // The line below bootstraps the Scripting API Extra library that adds a number of advanced properties/features to WorkAdventure
     bootstrapExtra().then(() => {
         console.info('Scripting API Extra ready');
@@ -34,3 +52,4 @@ function closePopup(){
 }
 
 export {};
+
